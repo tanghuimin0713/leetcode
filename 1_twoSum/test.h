@@ -7,5 +7,6 @@
 #define ARRAY_SIZE 5
 void test_Partition();
 void test_QuickSort();
+void test_BinarySearch();
 
 #endif

@@ -2,7 +2,7 @@
 
 int main()
 {
-	test_QuickSort();
+	test_BinarySearch();
 	return 0;
 }
 
