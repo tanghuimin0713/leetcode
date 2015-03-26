@@ -2,8 +2,9 @@
 
 int Partition(int *R, int low, int high)
 {
-	int pivot = R[low];
+	assert(R != NULL);
 
+	int pivot = R[low];
 	while (low < high)
 	{
 		while ((low < high) && (pivot <= R[high]))
@@ -23,3 +24,21 @@ int Partition(int *R, int low, int high)
 	return low;
 }
 
+void QuickSort(int *R, int low, int high)
+{
+	assert(R != NULL);
+
+	int pivotPos = 0;
+	if (low < high)
+	{
+		pivotPos = Partition(R, low, high);
+		if (low < (pivotPos-1))
+		{
+			QuickSort(R, low, pivotPos-1);
+		}
+		if ((pivotPos+1) < high)
+		{
+			QuickSort(R, pivotPos+1, high);
+		}
+	}
+}

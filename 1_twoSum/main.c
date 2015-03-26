@@ -2,7 +2,7 @@
 
 int main()
 {
-	test_Partition();
+	test_QuickSort();
 	return 0;
 }
 
