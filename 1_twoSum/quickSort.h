@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-int Partition(int *R, int low, int high);
-void QuickSort(int *R, int low, int high);
+int partition(int *R, int low, int high);
+void quickSort(int *R, int low, int high);
 
 #endif

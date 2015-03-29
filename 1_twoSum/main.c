@@ -1,11 +1,8 @@
-#include "quickSort.h"
-#include "binarySearch.h"
-
-#define ARRAY_SIZE 6 
+#include "test.h"
 
 int main()
 {
-	int array[ARRAY_SIZE] = {0};
+	test_twoSum();	
 	return 0;
 }
 

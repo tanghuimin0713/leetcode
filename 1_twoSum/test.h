@@ -3,10 +3,13 @@
 
 #include <stdio.h>
 #include "quickSort.h"
+#include "binarySearch.h"
+#include "twoSum.h"
 
 #define ARRAY_SIZE 5
-void test_Partition();
-void test_QuickSort();
-void test_BinarySearch();
+void test_partition();
+void test_quickSort();
+void test_binarySearch();
+void test_twoSum();
 
 #endif

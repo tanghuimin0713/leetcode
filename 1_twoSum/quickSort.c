@@ -1,6 +1,6 @@
 #include "quickSort.h"
 
-int Partition(int *R, int low, int high)
+int partition(int *R, int low, int high)
 {
 	assert(R != NULL);
 
@@ -24,21 +24,21 @@ int Partition(int *R, int low, int high)
 	return low;
 }
 
-void QuickSort(int *R, int low, int high)
+void quickSort(int *R, int low, int high)
 {
 	assert(R != NULL);
 
 	int pivotPos = 0;
 	if (low < high)
 	{
-		pivotPos = Partition(R, low, high);
-		if (low < (pivotPos-1))
+		pivotPos = partition(R, low, high);
+		if (low < (pivotPos - 1))
 		{
-			QuickSort(R, low, pivotPos-1);
+			quickSort(R, low, pivotPos - 1);
 		}
-		if ((pivotPos+1) < high)
+		if ((pivotPos + 1) < high)
 		{
-			QuickSort(R, pivotPos+1, high);
+			quickSort(R, pivotPos + 1, high);
 		}
 	}
 }
