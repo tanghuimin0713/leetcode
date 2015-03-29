@@ -1,5 +1,6 @@
 #include "test.h" 
 
+#if 0
 void test_partition()
 {
 	int array[ARRAY_SIZE] = {0};
@@ -59,6 +60,7 @@ void test_binarySearch()
 	pos = binarySearch(array, ARRAY_SIZE, key);
 	printf("\n%d ", pos);
 }
+#endif
 
 extern int idx[2];
 void test_twoSum()

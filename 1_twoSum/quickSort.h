@@ -3,8 +3,9 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include "common.h"
 
-int partition(int *R, int low, int high);
-void quickSort(int *R, int low, int high);
+int partition(numInfo_t *R, int low, int high);
+void quickSort(numInfo_t *R, int low, int high);
 
 #endif

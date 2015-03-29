@@ -1,19 +1,19 @@
 #include "quickSort.h"
 
-int partition(int *R, int low, int high)
+int partition(numInfo_t *R, int low, int high)
 {
 	assert(R != NULL);
 
-	int pivot = R[low];
+	numInfo_t pivot = R[low];
 	while (low < high)
 	{
-		while ((low < high) && (pivot <= R[high]))
+		while ((low < high) && (pivot.number <= R[high].number))
 		{
 			high--;
 		}
 		R[low] = R[high];
 
-		while ((low < high) && (pivot >= R[low]))
+		while ((low < high) && (pivot.number >= R[low].number))
 		{
 			low++;
 		}
@@ -24,7 +24,7 @@ int partition(int *R, int low, int high)
 	return low;
 }
 
-void quickSort(int *R, int low, int high)
+void quickSort(numInfo_t *R, int low, int high)
 {
 	assert(R != NULL);
 
