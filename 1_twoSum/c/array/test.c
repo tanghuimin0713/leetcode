@@ -1,39 +1,63 @@
 #include "test.h" 
 
-#if 0
 void test_partition()
 {
 	int array[ARRAY_SIZE] = {0};
-	 int i = 0;
+	int i = 0;
+	numInfo_t *p_numInfo = NULL;
 
 	for (i = 0; i < ARRAY_SIZE; i++)
 	{
 		scanf("%d", &array[i]);
 	}
 
-	partition(array, 0, ARRAY_SIZE-1);
+	if ((p_numInfo = malloc(ARRAY_SIZE * sizeof(numInfo_t))) == NULL)
+	{
+		printf("%s, %d: malloc failed.\n", __FUNCTION__, __LINE__);
+		return;
+	}
+	memset(p_numInfo, 0, (ARRAY_SIZE * sizeof(numInfo_t)));
+	for (i = 0; i < ARRAY_SIZE; i++)
+	{
+		p_numInfo[i].index = i;
+		p_numInfo[i].number = array[i];
+	}
+
+	partition(p_numInfo, 0, ARRAY_SIZE-1);
 
 	for (i = 0; i < ARRAY_SIZE; i++)
 	{
-		printf("%d ", array[i]);
+		printf("%d ", p_numInfo[i].number);
 	}
 }
 
 void test_quickSort()
 {
 	int array[ARRAY_SIZE] = {0};
-	 int i = 0;
+	int i = 0;
+	numInfo_t *p_numInfo = NULL;
 
 	for (i = 0; i < ARRAY_SIZE; i++)
 	{
 		scanf("%d", &array[i]);
 	}
 
-	quickSort(array, 0, ARRAY_SIZE-1);
+	if ((p_numInfo = malloc(ARRAY_SIZE * sizeof(numInfo_t))) == NULL)
+	{
+		printf("%s, %d: malloc failed.\n", __FUNCTION__, __LINE__);
+		return;
+	}
+	memset(p_numInfo, 0, (ARRAY_SIZE * sizeof(numInfo_t)));
+	for (i = 0; i < ARRAY_SIZE; i++)
+	{
+		p_numInfo[i].index = i;
+		p_numInfo[i].number = array[i];
+	}
+	quickSort(p_numInfo, 0, ARRAY_SIZE-1);
 
 	for (i = 0; i < ARRAY_SIZE; i++)
 	{
-		printf("%d ", array[i]);
+		printf("%d ", p_numInfo[i].number);
 	}
 }
 
@@ -43,6 +67,7 @@ void test_binarySearch()
 	int key = 0;
 	int pos = -1;
 	int i = 0;
+	numInfo_t *p_numInfo = NULL;
 
 	for (i = 0; i < ARRAY_SIZE; i++)
 	{
@@ -50,17 +75,28 @@ void test_binarySearch()
 	}
 	scanf("%d", &key);
 
-	quickSort(array, 0, ARRAY_SIZE-1);
+	if ((p_numInfo = malloc(ARRAY_SIZE * sizeof(numInfo_t))) == NULL)
+	{
+		printf("%s, %d: malloc failed.\n", __FUNCTION__, __LINE__);
+		return;
+	}
+	memset(p_numInfo, 0, (ARRAY_SIZE * sizeof(numInfo_t)));
+	for (i = 0; i < ARRAY_SIZE; i++)
+	{
+		p_numInfo[i].index = i;
+		p_numInfo[i].number = array[i];
+	}
+
+	quickSort(p_numInfo, 0, ARRAY_SIZE-1);
 
 	for (i = 0; i < ARRAY_SIZE; i++)
 	{
-		printf("%d ", array[i]);
+		printf("%d ", p_numInfo[i].number);
 	}
 
-	pos = binarySearch(array, ARRAY_SIZE, key);
-	printf("\n%d ", pos);
+	pos = binarySearch(p_numInfo, ARRAY_SIZE, key);
+	printf("\n%d ", (pos == -1) ? -1 : p_numInfo[pos].index);
 }
-#endif
 
 extern int idx[2];
 void test_twoSum()

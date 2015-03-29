@@ -2,6 +2,8 @@
 #define _TEST_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "quickSort.h"
 #include "binarySearch.h"
 #include "twoSum.h"
