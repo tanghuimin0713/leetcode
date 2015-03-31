@@ -5,7 +5,6 @@ int *twoSum(int numbers[], int n, int target)
 {
 	int idx1 = -1, idx2 = -1;
 	int i = 0;
-	int count = 0;
 	numInfo_t *p_numInfo = NULL;
 
 	assert((numbers != NULL) && (n > 0));
@@ -19,25 +18,16 @@ int *twoSum(int numbers[], int n, int target)
 
 	for (i = 0; i < n; i++)
 	{
-		if (numbers[i] <= target)
-		{
-			p_numInfo[count].index = i;
-			p_numInfo[count].number = numbers[i];
-			count++;
-		}
-	}
-	if (count == 0)
-	{
-		free(p_numInfo);
-		return NULL;
+		p_numInfo[i].index = i;
+		p_numInfo[i].number = numbers[i];
 	}
 
-	quickSort(p_numInfo, 0, count - 1);
+	quickSort(p_numInfo, 0, n - 1);
 
 	idx1 = 0;
-	while ((p_numInfo[idx1].number <= (target >> 1)) && ((idx1 + 1) < count))
+	while ((idx1 + 1) < n)
 	{
-		idx2 = binarySearch(p_numInfo + idx1 + 1, count - idx1 - 1, target - p_numInfo[idx1].number);	
+		idx2 = binarySearch(p_numInfo + idx1 + 1, n - idx1 - 1, target - p_numInfo[idx1].number);	
 		if (idx2 != -1)
 		{
 			idx[0] = p_numInfo[idx1].index + 1;
