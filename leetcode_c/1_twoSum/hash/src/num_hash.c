@@ -2,7 +2,7 @@
 
 hashHead_t *num_hash_head = NULL;
 
-int init_num_hash_head(uint32_t bucket_size)
+int32_t init_num_hash_head(uint32_t bucket_size)
 {
 	if ((num_hash_head = malloc(sizeof(hashHead_t) * bucket_size)) == NULL)
 	{
@@ -16,7 +16,7 @@ int init_num_hash_head(uint32_t bucket_size)
 	return 0;
 }
 
-hashNode_t *init_num_hash_node(int value, uint32_t index)
+hashNode_t *init_num_hash_node(int32_t value, uint32_t index)
 {
 	hashNode_t *n = NULL;
 
@@ -27,13 +27,13 @@ hashNode_t *init_num_hash_node(int value, uint32_t index)
 	}
 	memset(n, 0, sizeof(hashNode_t));
 
-	if (((n->key) = malloc(sizeof(int))) == NULL)
+	if (((n->key) = malloc(sizeof(int32_t))) == NULL)
 	{
 		printf("%s, %d: malloc failed.\n", __FUNCTION__, __LINE__);
 		return NULL;
 	}
-	memcpy(n->key, &value, sizeof(int));
-	n->key_len = sizeof(int);
+	memcpy(n->key, &value, sizeof(int32_t));
+	n->key_len = sizeof(int32_t);
 
 	if ((n->info = malloc(sizeof(uint32_t))) == NULL)
 	{
@@ -48,14 +48,17 @@ hashNode_t *init_num_hash_node(int value, uint32_t index)
 
 void add_num_hash_node(hashNode_t *n, uint32_t bucket_size)
 {
+	assert(n != NULL);
+
 	uint32_t head_index;
 	head_index = (hash_hashNode((uint8_t *)(n->key), n->key_len) & (bucket_size - 1));
-//printf("key=%d, index=%d, head_index=%d\n", *(int32_t *)n->key, *(uint32_t *)n->info, head_index);
 	add_hashNode(n, num_hash_head + head_index);
 }
 
-int init_num_hash(int *array, uint32_t array_size)
+int32_t init_num_hash(int32_t *array, uint32_t array_size)
 {
+	assert(array != NULL);
+
 	uint32_t i = 0;
 	hashNode_t *n = NULL;
 	uint32_t bucket_size = array_size;
@@ -72,7 +75,6 @@ int init_num_hash(int *array, uint32_t array_size)
 			printf("%s, %d: init_num_hash_node() failed.\n", __FUNCTION__, __LINE__);
 			return -1;
 		}	
-//printf("key = %d, index = %d\n", *(int32_t *)n->key, *(uint32_t *)n->info);
 		add_num_hash_node(n, bucket_size);		
 	}
 	return 0;
@@ -80,29 +82,27 @@ int init_num_hash(int *array, uint32_t array_size)
 
 void free_num_hashNode(hashNode_t *n)
 {
-	if (n != NULL)		
-	{
-		del_hashNode(n);
-		free(n->key);
-		n->key = NULL;
-		free(n->info);
-		n->info = NULL;
-		free(n);
-		n = NULL;
-	}
+	assert(n != NULL);
+
+	del_hashNode(n);
+	free(n->key);
+	n->key = NULL;
+	free(n->info);
+	n->info = NULL;
+	free(n);
+	n = NULL;
 }
 
 void free_num_hash_head(hashHead_t *h)
 {
-	if (h != NULL)	
+	assert(h != NULL);
+
+	hashNode_t *node = NULL;
+	while (h->hhead.first)
 	{
-		hashNode_t *node = NULL;
-		while (h->hhead.first)
+		if ((node = get_hashNode(h->hhead.first)) != NULL)
 		{
-			if ((node = get_hashNode(h->hhead.first)) != NULL)
-			{
-				free_num_hashNode(node);
-			}
+			free_num_hashNode(node);
 		}
 	}
 }
@@ -124,8 +124,8 @@ void free_num_hash(uint32_t bucket_size)
 	num_hash_head = NULL;
 }
 
-hashNode_t *search_num_hash(int key, uint32_t bucket_size)
+hashNode_t *search_num_hash(int32_t key, uint32_t bucket_size)
 {
-	uint32_t headIndex = hash_hashNode(&key, sizeof(int)) & (bucket_size - 1); 
-	return search_hash_node(&key, sizeof(int), num_hash_head + headIndex);
+	uint32_t headIndex = hash_hashNode(&key, sizeof(int32_t)) & (bucket_size - 1); 
+	return search_hash_node(&key, sizeof(int32_t), num_hash_head + headIndex);
 }

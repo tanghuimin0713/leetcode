@@ -1,11 +1,11 @@
 #include "twoSum.h"
 
-int idx[2] = {-1, -1};
+int32_t idx[2] = {-1, -1};
 
-int *twoSum(int numbers[], int n, int target)
+int32_t *twoSum(int32_t numbers[], int32_t n, int32_t target)
 {
 	uint32_t i = 0;
-	int idx1 = -1, idx2 = -1;
+	int32_t idx1 = -1, idx2 = -1;
 	hashNode_t *node = NULL;
 
 	init_num_hash(numbers, n);
