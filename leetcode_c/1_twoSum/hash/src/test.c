@@ -1,7 +1,7 @@
 #include "test.h"
 
 #define MAX_SIZE 6
-int array[MAX_SIZE] = {0};
+int32_t array[MAX_SIZE] = {0};
 extern hashHead_t *num_hash_head;
 
 void array_init()
@@ -69,7 +69,7 @@ void test_init_num_hash()
 void test_search_num_hash()
 {
 	hashNode_t *node = NULL;
-	int sel = 0;
+	int32_t sel = 0;
 	uint32_t bucket_size = MAX_SIZE;
 
 	test_prepare();

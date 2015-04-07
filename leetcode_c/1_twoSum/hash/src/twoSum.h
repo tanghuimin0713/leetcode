@@ -3,6 +3,6 @@
 
 #include "num_hash.h"
 
-int *twoSum(int numbers[], int n, int target);
+int32_t *twoSum(int32_t numbers[], int32_t n, int32_t target);
 
 #endif
