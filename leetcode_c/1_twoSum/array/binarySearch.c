@@ -1,18 +1,20 @@
 #include "binarySearch.h"
 
-int binarySearch(numInfo_t *R, int size, int K)
+int32_t binarySearch(numInfo_t *R, int32_t size, int64_t K)
 {
-	int low = 0, high = (size - 1);
-	int mid = 0;
+	assert((R != NULL) && (size > 0));
+
+	int32_t low = 0, high = (size - 1);
+	int32_t mid = -1;
 
 	while(low <= high)
 	{
 		mid = ((low+high) >> 1);
-		if (R[mid].number == K)	
+		if (R[mid].key == K)	
 		{
 			return mid;
 		}
-		else if (R[mid].number > K)
+		else if (R[mid].key > K)
 		{
 			high = (mid - 1);
 		}

@@ -1,8 +1,10 @@
 #ifndef _BINARYSEARCH_H
 #define _BINARYSEARCH_H
 
-#include "common.h"
+#include <stddef.h>
+#include <assert.h>
+#include "common_struct.h" 
 
-int binarySearch(numInfo_t *R, int size, int K);
+int32_t binarySearch(numInfo_t *R, int32_t size, int64_t K);
 
 #endif
