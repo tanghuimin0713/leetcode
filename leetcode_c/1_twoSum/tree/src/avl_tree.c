@@ -51,15 +51,15 @@ AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data)
 		{
 			return NULL;
 		}
-		if ((avl_node_height((*root)->left) - avl_node_height((*root)->right)) > 2)
+		if ((avl_node_height((*root)->left) - avl_node_height((*root)->right)) > 1)
 		{
 			if (tree->cmp_fn(data, (*root)->left->data) < 0)
 			{
-				left_left_rotation(*root);
+				*root = left_left_rotation(*root);
 			}
 			else
 			{
-				left_right_rotation(*root);
+				*root = left_right_rotation(*root);
 			}
 		}
 	}
@@ -69,15 +69,15 @@ AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data)
 		{
 			return NULL;
 		}
-		if ((avl_node_height((*root)->right) - avl_node_height((*root)->left)) > 2)
+		if ((avl_node_height((*root)->right) - avl_node_height((*root)->left)) > 1)
 		{
 			if (tree->cmp_fn(data, (*root)->right->data) < 0) 
 			{
-				right_left_rotation(*root);
+				*root = right_left_rotation(*root);
 			}
 			else
 			{
-				right_right_rotation(*root);
+				*root = right_right_rotation(*root);
 			}
 		}
 	}
@@ -88,6 +88,7 @@ AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data)
 	}
 
 	(*root)->height = max(avl_node_height((*root)->left), avl_node_height((*root)->right)) + 1;
+
 	return *root;
 }
 
