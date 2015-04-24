@@ -33,51 +33,51 @@ AvlNode_t* avlnode_create(void *data)
 	return node;
 }
 
-AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t *root, void *data)
+AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data)
 {
-	AvlNode_t *node = NULL;
+	assert(tree != NULL);
 
-	if (root == NULL)
+	if (*root == NULL)
 	{
-		if ((root = avlnode_create(data)) == NULL)		
+		if ((*root = avlnode_create(data)) == NULL)		
 		{
 			printf("%s, %d: avlnode_create failed.", __FUNCTION__, __LINE__);
 			return NULL;
 		}
 	}
-	else if(tree->cmp_fn(data, root->data) < 0)
+	else if(tree->cmp_fn(data, (*root)->data) < 0)
 	{	
-		if ((root->left = avlnode_insert(tree, root->left, data)) == NULL)
+		if (((*root)->left = avlnode_insert(tree, &((*root)->left), data)) == NULL)
 		{
 			return NULL;
 		}
-		if ((avl_node_height(root->left) - avl_node_height(root->right)) > 2)
+		if ((avl_node_height((*root)->left) - avl_node_height((*root)->right)) > 2)
 		{
-			if (tree->cmp_fn(data, root->left->data) < 0)
+			if (tree->cmp_fn(data, (*root)->left->data) < 0)
 			{
-				left_left_rotation(root);
+				left_left_rotation(*root);
 			}
 			else
 			{
-				left_right_rotation(root);
+				left_right_rotation(*root);
 			}
 		}
 	}
-	else if(tree->cmp_fn(data, root->data) > 0)	
+	else if(tree->cmp_fn(data, (*root)->data) > 0)	
 	{
-		if ((root->right = avlnode_insert(tree, root->right, data)) == NULL)
+		if (((*root)->right = avlnode_insert(tree, &((*root)->right), data)) == NULL)
 		{
 			return NULL;
 		}
-		if ((avl_node_height(root->right) - avl_node_height(root->left)) > 2)
+		if ((avl_node_height((*root)->right) - avl_node_height((*root)->left)) > 2)
 		{
-			if (tree->cmp_fn(data, root->right->data) < 0) 
+			if (tree->cmp_fn(data, (*root)->right->data) < 0) 
 			{
-				right_left_rotation(root);
+				right_left_rotation(*root);
 			}
 			else
 			{
-				right_right_rotation(root);
+				right_right_rotation(*root);
 			}
 		}
 	}
@@ -87,8 +87,8 @@ AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t *root, void *data)
 		return NULL;
 	}
 
-	root->height = max(avl_node_height(root->left), avl_node_height(root->right)) + 1;
-	return root;
+	(*root)->height = max(avl_node_height((*root)->left), avl_node_height((*root)->right)) + 1;
+	return *root;
 }
 
 void avltree_preorder(AvlTree_t *tree, AvlNode_t *root)

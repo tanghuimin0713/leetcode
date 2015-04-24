@@ -33,7 +33,17 @@ typedef struct AvlTree_s
 	(n)->right = NULL; \
 	} while (0)
 
-#define avl_node_height(n) ((n)->height)
+static inline unsigned long avl_node_height(AvlNode_t* n)
+{
+	if (n == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		return n->height;
+	}
+}
 
 static inline AvlNode_t* left_left_rotation(AvlNode_t *n)
 {
@@ -78,7 +88,7 @@ static inline AvlNode_t* right_left_rotation(AvlNode_t *n)
 
 AvlTree_t* avltree_create(AvlCmpFn_t cmp_fn, AvlIterFn_t iter_fn);
 AvlNode_t* avlnode_create(void *data);
-AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t *root, void *data);
+AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data);
 void avltree_preorder(AvlTree_t *tree, AvlNode_t *root);
 void avltree_inorder(AvlTree_t *tree, AvlNode_t *root);
 void avltree_postorder(AvlTree_t *tree, AvlNode_t *root);
