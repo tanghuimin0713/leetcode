@@ -19,12 +19,19 @@ int CmpNumInfo(void *numInfo1, void *numInfo2)
 	}
 }
 
-void PrintNumInfo(void *numInfo)
+void PrintNumInfo(AvlNode_t *n)
 {
-	assert(numInfo != NULL);
+	assert(n != NULL);
 
-	numInfo_t *info = (numInfo_t *)numInfo;
-	printf("num = %d, index = %d\n", info->num, info->index);
+	if (n->data)
+	{
+		numInfo_t *info = (numInfo_t *)(n->data);
+		printf("num = %d, index = %d, height = %ld\n", info->num, info->index, n->height);
+	}
+	else
+	{
+		printf("height = %ld\n", n->height);
+	}
 }
 
 void FreeAvlNode(AvlNode_t *n)

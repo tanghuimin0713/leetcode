@@ -16,7 +16,7 @@ typedef struct AvlNode_s
 }AvlNode_t;
 
 typedef int (*AvlCmpFn_t)(void *data1, void *data2);
-typedef void (*AvlIterFn_t)(void *data);
+typedef void (*AvlIterFn_t)(AvlNode_t *n);
 typedef void (*AvlFreeFn_t)(AvlNode_t *n);
 
 typedef struct AvlTree_s

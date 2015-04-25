@@ -205,7 +205,7 @@ void avltree_preorder(AvlTree_t *tree, AvlNode_t *root)
 
 	if (root != NULL)
 	{
-		tree->iter_fn(root->data);
+		tree->iter_fn(root);
 		avltree_preorder(tree, root->left);
 		avltree_preorder(tree, root->right);
 	}
@@ -218,7 +218,7 @@ void avltree_inorder(AvlTree_t *tree, AvlNode_t *root)
 	if (root != NULL)
 	{
 		avltree_inorder(tree, root->left);
-		tree->iter_fn(root->data);
+		tree->iter_fn(root);
 		avltree_inorder(tree, root->right);
 	}
 }
@@ -231,6 +231,6 @@ void avltree_postorder(AvlTree_t *tree, AvlNode_t *root)
 	{
 		avltree_postorder(tree, root->left);	
 		avltree_postorder(tree, root->right);
-		tree->iter_fn(root->data);
+		tree->iter_fn(root);
 	}
 }
