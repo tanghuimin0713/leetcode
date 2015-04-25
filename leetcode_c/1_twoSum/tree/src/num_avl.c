@@ -27,9 +27,21 @@ void PrintNumInfo(void *numInfo)
 	printf("num = %d, index = %d\n", info->num, info->index);
 }
 
+void FreeAvlNode(AvlNode_t *n)
+{
+	if (n != NULL)
+	{
+		if (n->data != NULL)
+		{
+			free(n->data);
+		}
+		free(n);
+	}
+}
+
 AvlTree_t* num_avl_tree_create()
 {
-	return avltree_create(CmpNumInfo, PrintNumInfo);	
+	return avltree_create(CmpNumInfo, PrintNumInfo, FreeAvlNode);	
 }
 
 AvlNode_t* num_avl_node_insert(AvlTree_t *tree, int num, unsigned int index)

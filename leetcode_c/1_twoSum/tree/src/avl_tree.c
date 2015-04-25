@@ -1,6 +1,6 @@
 #include "avl_tree.h"
 
-AvlTree_t* avltree_create(AvlCmpFn_t cmp_fn, AvlIterFn_t iter_fn)
+AvlTree_t* avltree_create(AvlCmpFn_t cmp_fn, AvlIterFn_t iter_fn, AvlFreeFn_t free_fn)
 {
 	AvlTree_t *tree = NULL;
 
@@ -13,6 +13,7 @@ AvlTree_t* avltree_create(AvlCmpFn_t cmp_fn, AvlIterFn_t iter_fn)
 	tree->root = NULL;
 	tree->cmp_fn = cmp_fn;
 	tree->iter_fn = iter_fn;
+	tree->free_fn = free_fn;
 
 	return tree;
 }
@@ -89,6 +90,112 @@ AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data)
 
 	(*root)->height = max(avl_node_height((*root)->left), avl_node_height((*root)->right)) + 1;
 
+	return *root;
+}
+
+AvlNode_t* avltree_min(AvlNode_t *root)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+
+	AvlNode_t *n = root;
+	while(n->left)	
+	{
+		n = n->left;
+	}
+
+	return n;
+}
+
+AvlNode_t* avltree_max(AvlNode_t *root)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+
+	AvlNode_t *n = root;
+	while(n->right)
+	{
+		n = n->right;
+	}
+
+	return n;
+}
+
+AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
+{
+	if ((tree == NULL)  || (root == NULL) || (*root == NULL) || (data == NULL))
+	{
+		return NULL;
+	}
+
+	if (tree->cmp_fn(data, (*root)->data) < 0)
+	{
+		(*root)->left = avlnode_delete(tree, &((*root)->left), data);
+		if ((avl_node_height((*root)->right) - avl_node_height((*root)->left)) > 1)
+		{
+			AvlNode_t *r = (*root)->right;
+			if (avl_node_height(r->left) > avl_node_height(r->right))
+			{
+				right_left_rotation(*root);
+			}
+			else
+			{
+				right_right_rotation(*root);
+			}
+		}
+	}
+	else if (tree->cmp_fn(data, (*root)->data) > 0)
+	{
+		(*root)->right = avlnode_delete(tree, &((*root)->right), data);
+		if ((avl_node_height((*root)->left) - avl_node_height((*root)->right)) > 1)
+		{
+			AvlNode_t *l = (*root)->left;
+			if (avl_node_height(l->left) > avl_node_height(l->right))
+			{
+				left_left_rotation(*root);
+			}
+			else
+			{
+				left_right_rotation(*root);
+			}
+		}
+	}
+	else
+	{
+		if ((*root)->left && (*root)->right)
+		{
+			if (avl_node_height((*root)->left) > avl_node_height((*root)->right))
+			{
+				AvlNode_t *max = avltree_max((*root)->left);
+				void *temp = NULL;
+				temp = (*root)->data;
+				(*root)->data = max->data;
+				max->data = temp;
+				(*root)->left = avlnode_delete(tree, &((*root)->left), max->data);	
+			}
+			else
+			{
+				AvlNode_t *min = avltree_min((*root)->right);
+				void *temp = NULL;
+				temp = (*root)->data;
+				(*root)->data = min->data;
+				min->data = temp;
+				(*root)->right = avlnode_delete(tree, &((*root)->right), min->data);
+			}
+		}
+		else
+		{
+			AvlNode_t *n = *root;
+			*root = (*root)->left ? (*root)->left : (*root)->right;
+			tree->free_fn(n);
+		}
+	}
+
+	(*root)->height = max(avl_node_height((*root)->left), avl_node_height((*root)->right)) + 1;
 	return *root;
 }
 

@@ -7,9 +7,6 @@
 #include <assert.h>
 #include "common.h"
 
-typedef int (*AvlCmpFn_t)(void *data1, void *data2);
-typedef void (*AvlIterFn_t)(void *data);
-
 typedef struct AvlNode_s
 {
 	void *data;
@@ -18,11 +15,16 @@ typedef struct AvlNode_s
         struct AvlNode_s *right; 
 }AvlNode_t;
 
+typedef int (*AvlCmpFn_t)(void *data1, void *data2);
+typedef void (*AvlIterFn_t)(void *data);
+typedef void (*AvlFreeFn_t)(AvlNode_t *n);
+
 typedef struct AvlTree_s
 {
 	AvlNode_t *root;
 	AvlCmpFn_t cmp_fn;	
 	AvlIterFn_t iter_fn;
+	AvlFreeFn_t free_fn;
 }AvlTree_t;
 
 #define init_avl_node(n) \
@@ -86,9 +88,12 @@ static inline AvlNode_t* right_left_rotation(AvlNode_t *n)
         return right_right_rotation(n);
 }
 
-AvlTree_t* avltree_create(AvlCmpFn_t cmp_fn, AvlIterFn_t iter_fn);
+AvlTree_t* avltree_create(AvlCmpFn_t cmp_fn, AvlIterFn_t iter_fn, AvlFreeFn_t free_fn);
 AvlNode_t* avlnode_create(void *data);
 AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data);
+AvlNode_t* avltree_min(AvlNode_t *root);
+AvlNode_t* avltree_max(AvlNode_t *root);
+AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data);
 void avltree_preorder(AvlTree_t *tree, AvlNode_t *root);
 void avltree_inorder(AvlTree_t *tree, AvlNode_t *root);
 void avltree_postorder(AvlTree_t *tree, AvlNode_t *root);
