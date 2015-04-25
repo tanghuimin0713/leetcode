@@ -199,6 +199,29 @@ AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
 	return *root;
 }
 
+AvlNode_t* avltree_search(AvlTree_t *tree, void *data)
+{
+	assert((tree != NULL) && (data != NULL));
+
+	AvlNode_t *n = tree->root;
+	while (n != NULL)	
+	{
+		if (tree->cmp_fn(data, n->data) == 0)
+		{
+			return n;	
+		}
+		else if(tree->cmp_fn(data, n->data) < 0)
+		{
+			n = n->left;
+		}
+		else
+		{
+			n = n->right;
+		}
+	}
+	return NULL;
+}
+
 void avltree_preorder(AvlTree_t *tree, AvlNode_t *root)
 {
 	assert(tree->iter_fn != NULL);

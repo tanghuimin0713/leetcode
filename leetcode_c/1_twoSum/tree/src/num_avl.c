@@ -53,6 +53,8 @@ AvlTree_t* num_avl_tree_create()
 
 AvlNode_t* num_avl_node_insert(AvlTree_t *tree, int num, unsigned int index)
 {
+	assert(tree != NULL);
+
 	numInfo_t *numInfo = NULL;
 	if ((numInfo = malloc(sizeof(numInfo_t))) == NULL)
 	{
@@ -62,6 +64,26 @@ AvlNode_t* num_avl_node_insert(AvlTree_t *tree, int num, unsigned int index)
 	numInfo->num = num;
 	numInfo->index = index;
 	return avlnode_insert(tree, &(tree->root), numInfo);
+}
+
+AvlNode_t* num_avl_node_delete(AvlTree_t *tree, int num)
+{
+	assert(tree != NULL);
+
+	numInfo_t numInfo = {0};
+	numInfo.num = num;
+
+	return avlnode_delete(tree, &(tree->root), &numInfo);
+}	
+
+AvlNode_t* num_avl_tree_search(AvlTree_t *tree, int num)
+{
+	assert(tree != NULL);
+
+	numInfo_t numInfo = {0};
+	numInfo.num = num;
+
+	return avltree_search(tree, &numInfo);
 }
 
 void num_avl_tree_print_preorder(AvlTree_t *tree)
