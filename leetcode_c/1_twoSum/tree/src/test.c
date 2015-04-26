@@ -50,3 +50,17 @@ void test_avltree_delete()
 		test_avltree_print(0);
 	}
 }
+
+void test_avltree_destory()
+{
+	num_avl_tree_destory(tree);
+}
+
+void test_avltree_search()
+{
+	AvlNode_t *n = num_avl_tree_search(tree, 7);
+	if (n)
+	{
+		tree->iter_fn(n);
+	}
+}

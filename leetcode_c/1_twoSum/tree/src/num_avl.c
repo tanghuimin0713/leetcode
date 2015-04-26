@@ -36,15 +36,17 @@ void PrintNumInfo(AvlNode_t *n)
 	}
 }
 
-void FreeAvlNode(AvlNode_t *n)
+void FreeAvlNode(AvlNode_t **n)
 {
-	if (n != NULL)
+	if (n != NULL && *n != NULL)
 	{
-		if (n->data != NULL)
+		if ((*n)->data != NULL)
 		{
-			free(n->data);
+			free((*n)->data);
+			(*n)->data = NULL;
 		}
-		free(n);
+		free(*n);
+		*n = NULL;
 	}
 }
 
@@ -78,14 +80,24 @@ AvlNode_t* num_avl_node_delete(AvlTree_t *tree, int num)
 	return avlnode_delete(tree, &(tree->root), &numInfo);
 }	
 
+void num_avl_tree_destory(AvlTree_t *tree)
+{
+	avltree_destory(tree, &(tree->root));
+}
+
 AvlNode_t* num_avl_tree_search(AvlTree_t *tree, int num)
 {
 	assert(tree != NULL);
 
 	numInfo_t numInfo = {0};
-	numInfo.num = num;
+	AvlNode_t *n = NULL;
 
-	return avltree_search(tree, &numInfo);
+	numInfo.num = num;
+	if ((n = avltree_search(tree, &numInfo)) == NULL)
+	{
+		printf("%s, %d: num:%d not exist.\n", __FUNCTION__, __LINE__, num);
+	}
+	return n;
 }
 
 void num_avl_tree_print_preorder(AvlTree_t *tree)

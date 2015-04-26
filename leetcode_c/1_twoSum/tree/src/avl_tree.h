@@ -17,7 +17,7 @@ typedef struct AvlNode_s
 
 typedef int (*AvlCmpFn_t)(void *data1, void *data2);
 typedef void (*AvlIterFn_t)(AvlNode_t *n);
-typedef void (*AvlFreeFn_t)(AvlNode_t *n);
+typedef void (*AvlFreeFn_t)(AvlNode_t **n);
 
 typedef struct AvlTree_s
 {
@@ -94,6 +94,7 @@ AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data);
 AvlNode_t* avltree_min(AvlNode_t *root);
 AvlNode_t* avltree_max(AvlNode_t *root);
 AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data);
+void avltree_destory(AvlTree_t *tree, AvlNode_t **root);
 AvlNode_t* avltree_search(AvlTree_t *tree, void *data);
 void avltree_preorder(AvlTree_t *tree, AvlNode_t *root);
 void avltree_inorder(AvlTree_t *tree, AvlNode_t *root);

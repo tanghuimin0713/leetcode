@@ -36,7 +36,7 @@ AvlNode_t* avlnode_create(void *data)
 
 AvlNode_t* avlnode_insert(AvlTree_t *tree, AvlNode_t **root, void *data)
 {
-	assert(tree != NULL);
+	assert((tree != NULL) && (tree->cmp_fn != NULL));
 
 	if (*root == NULL)
 	{
@@ -132,6 +132,8 @@ AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
 		return NULL;
 	}
 
+	assert((tree->cmp_fn != NULL) && (tree->free_fn != NULL));
+
 	if (tree->cmp_fn(data, (*root)->data) < 0)
 	{
 //printf("%s, %d: case 1-1\n", __FUNCTION__, __LINE__);
@@ -204,7 +206,7 @@ AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
 //printf("%s, %d: case 3-5\n", __FUNCTION__, __LINE__);
 			AvlNode_t *n = *root;
 			*root = (*root)->left ? (*root)->left : (*root)->right;
-			tree->free_fn(n);
+			tree->free_fn(&n);
 		}
 	}
 
@@ -216,9 +218,20 @@ AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
 	return *root;
 }
 
+void avltree_destory(AvlTree_t *tree, AvlNode_t **root)
+{
+	if ((tree != NULL) && (root != NULL) && (*root != NULL))
+	{
+		avltree_destory(tree, &((*root)->left));
+		avltree_destory(tree, &((*root)->right));
+tree->iter_fn(*root);
+		tree->free_fn(root);
+	}	
+}
+
 AvlNode_t* avltree_search(AvlTree_t *tree, void *data)
 {
-	assert((tree != NULL) && (data != NULL));
+	assert((tree != NULL) && (tree->cmp_fn != NULL) && (data != NULL));
 
 	AvlNode_t *n = tree->root;
 	while (n != NULL)	
@@ -241,7 +254,7 @@ AvlNode_t* avltree_search(AvlTree_t *tree, void *data)
 
 void avltree_preorder(AvlTree_t *tree, AvlNode_t *root)
 {
-	assert(tree->iter_fn != NULL);
+	assert((tree != NULL) && (tree->iter_fn != NULL));
 
 	if (root != NULL)
 	{
@@ -253,7 +266,7 @@ void avltree_preorder(AvlTree_t *tree, AvlNode_t *root)
 
 void avltree_inorder(AvlTree_t *tree, AvlNode_t *root)
 {
-	assert(tree->iter_fn != NULL);
+	assert((tree != NULL) && (tree->iter_fn != NULL));
 
 	if (root != NULL)
 	{
@@ -265,7 +278,7 @@ void avltree_inorder(AvlTree_t *tree, AvlNode_t *root)
 
 void avltree_postorder(AvlTree_t *tree, AvlNode_t *root)
 {
-	assert(tree->iter_fn != NULL);
+	assert((tree != NULL) && (tree->iter_fn != NULL));
 
 	if (root != NULL)
 	{

@@ -15,6 +15,7 @@ typedef struct numInfo_s
 AvlTree_t* num_avl_tree_create();
 AvlNode_t* num_avl_node_insert(AvlTree_t *tree, int num, unsigned int index);
 AvlNode_t* num_avl_node_delete(AvlTree_t *tree, int num);
+void num_avl_tree_destory(AvlTree_t *tree);
 AvlNode_t* num_avl_tree_search(AvlTree_t *tree, int num);
 void num_avl_tree_print_preorder(AvlTree_t *tree);
 void num_avl_tree_print_inorder(AvlTree_t *tree);
