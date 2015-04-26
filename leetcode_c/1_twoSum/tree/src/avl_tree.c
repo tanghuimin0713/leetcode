@@ -224,7 +224,6 @@ void avltree_destory(AvlTree_t *tree, AvlNode_t **root)
 	{
 		avltree_destory(tree, &((*root)->left));
 		avltree_destory(tree, &((*root)->right));
-tree->iter_fn(*root);
 		tree->free_fn(root);
 	}	
 }

@@ -90,14 +90,8 @@ AvlNode_t* num_avl_tree_search(AvlTree_t *tree, int num)
 	assert(tree != NULL);
 
 	numInfo_t numInfo = {0};
-	AvlNode_t *n = NULL;
-
 	numInfo.num = num;
-	if ((n = avltree_search(tree, &numInfo)) == NULL)
-	{
-		printf("%s, %d: num:%d not exist.\n", __FUNCTION__, __LINE__, num);
-	}
-	return n;
+	return avltree_search(tree, &numInfo);
 }
 
 void num_avl_tree_print_preorder(AvlTree_t *tree)
