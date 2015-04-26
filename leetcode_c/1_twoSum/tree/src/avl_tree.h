@@ -10,7 +10,7 @@
 typedef struct AvlNode_s
 {
 	void *data;
-	unsigned long height;
+	long height;
         struct AvlNode_s *left;
         struct AvlNode_s *right; 
 }AvlNode_t;
@@ -35,7 +35,7 @@ typedef struct AvlTree_s
 	(n)->right = NULL; \
 	} while (0)
 
-static inline unsigned long avl_node_height(AvlNode_t* n)
+static inline long avl_node_height(AvlNode_t* n)
 {
 	if (n == NULL)
 	{

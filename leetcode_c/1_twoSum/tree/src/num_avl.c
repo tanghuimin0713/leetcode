@@ -2,6 +2,8 @@
 
 int CmpNumInfo(void *numInfo1, void *numInfo2)
 {
+	assert((numInfo1 != NULL) && (numInfo2 != NULL));
+
 	numInfo_t *info1 = (numInfo_t *)numInfo1;
 	numInfo_t *info2 = (numInfo_t *)numInfo2;
 

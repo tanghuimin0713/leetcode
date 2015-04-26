@@ -134,42 +134,53 @@ AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
 
 	if (tree->cmp_fn(data, (*root)->data) < 0)
 	{
+//printf("%s, %d: case 1-1\n", __FUNCTION__, __LINE__);
 		(*root)->left = avlnode_delete(tree, &((*root)->left), data);
 		if ((avl_node_height((*root)->right) - avl_node_height((*root)->left)) > 1)
 		{
+//printf("%s, %d: case 1-2\n", __FUNCTION__, __LINE__);
 			AvlNode_t *r = (*root)->right;
 			if (avl_node_height(r->left) > avl_node_height(r->right))
 			{
-				right_left_rotation(*root);
+//printf("%s, %d: case 1-3\n", __FUNCTION__, __LINE__);
+				*root = right_left_rotation(*root);
 			}
 			else
 			{
-				right_right_rotation(*root);
+//printf("%s, %d: case 1-4\n", __FUNCTION__, __LINE__);
+				*root = right_right_rotation(*root);
 			}
 		}
 	}
 	else if (tree->cmp_fn(data, (*root)->data) > 0)
 	{
+//printf("%s, %d: case 2-1\n", __FUNCTION__, __LINE__);
 		(*root)->right = avlnode_delete(tree, &((*root)->right), data);
 		if ((avl_node_height((*root)->left) - avl_node_height((*root)->right)) > 1)
 		{
+//printf("%s, %d: case 2-2\n", __FUNCTION__, __LINE__);
 			AvlNode_t *l = (*root)->left;
 			if (avl_node_height(l->left) > avl_node_height(l->right))
 			{
-				left_left_rotation(*root);
+//printf("%s, %d: case 2-3\n", __FUNCTION__, __LINE__);
+				*root = left_left_rotation(*root);
 			}
 			else
 			{
-				left_right_rotation(*root);
+//printf("%s, %d: case 2-4\n", __FUNCTION__, __LINE__);
+				*root = left_right_rotation(*root);
 			}
 		}
 	}
 	else
 	{
+//printf("%s, %d: case 3-1\n", __FUNCTION__, __LINE__);
 		if ((*root)->left && (*root)->right)
 		{
+//printf("%s, %d: case 3-2\n", __FUNCTION__, __LINE__);
 			if (avl_node_height((*root)->left) > avl_node_height((*root)->right))
 			{
+//printf("%s, %d: case 3-3\n", __FUNCTION__, __LINE__);
 				AvlNode_t *max = avltree_max((*root)->left);
 				void *temp = NULL;
 				temp = (*root)->data;
@@ -179,6 +190,7 @@ AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
 			}
 			else
 			{
+//printf("%s, %d: case 3-4\n", __FUNCTION__, __LINE__);
 				AvlNode_t *min = avltree_min((*root)->right);
 				void *temp = NULL;
 				temp = (*root)->data;
@@ -189,13 +201,18 @@ AvlNode_t* avlnode_delete(AvlTree_t *tree, AvlNode_t **root, void *data)
 		}
 		else
 		{
+//printf("%s, %d: case 3-5\n", __FUNCTION__, __LINE__);
 			AvlNode_t *n = *root;
 			*root = (*root)->left ? (*root)->left : (*root)->right;
 			tree->free_fn(n);
 		}
 	}
 
-	(*root)->height = max(avl_node_height((*root)->left), avl_node_height((*root)->right)) + 1;
+	if (*root != NULL)
+	{
+		(*root)->height = max(avl_node_height((*root)->left), avl_node_height((*root)->right)) + 1;
+	}
+
 	return *root;
 }
 
